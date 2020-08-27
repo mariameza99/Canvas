@@ -330,6 +330,7 @@
 		var canvas = null, ctx = null,x=0,y=0; 
 		var izquierda = 1,arriba = 0, derecha = 2, abajo = 3;
 		var direccion = derecha, speed = 5;
+		var pausa = false;
 		var player = null, comida = null;
 		var puntos = 0;
 
@@ -383,10 +384,18 @@
 			player.paint(ctx); 
 
 			comida.paint(ctx);
+
+			if(pausa == true){
+				ctx.fillStyle = "white";
+				ctx.textAlign = "center";
+				ctx.fillText("Pausa", 197,150);
+			}
 		}
 
 
 		function upt(){
+
+			if(pausa == false){
 
 			if (direccion==arriba) {
 				player.y -=speed;
@@ -411,13 +420,15 @@
 				if(player.x>canvas.width){
 					player.x = -10;
 				}
-			}  
+			} 
 			
 			if (player.intersects(comida)) {
 				comida.x = random(canvas.width-10);
 				comida.y = random(canvas.height-50);
 				puntaje();
 			}
+
+		 }
 		}
 
 		//se repite mucho
@@ -458,6 +469,16 @@
 			if(e.keyCode== 68 || e.keyCode == 39){
 				direccion = derecha;
 			}
+			if(e.keyCode == 32){
+				
+
+				if(pausa == false){
+					pausa = true
+				}else{
+					pausa = false
+				}
+			}
+			console.log(e.keyCode)
 		})
 		 
 		function random(x){
