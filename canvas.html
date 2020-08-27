@@ -334,6 +334,7 @@
 		var player = null, comida = null;
 		var puntos = 0;
 		var walls = new Array();
+		var gameOver=false;
 
 		window.requestAnimationFrame = (function(){
 			return window.requestAnimationFrame || 
@@ -386,7 +387,7 @@
 
 			comida.paint(ctx);
 
-			if(pausa == true){
+			if(pausa == true && !gameOver){
 				ctx.fillStyle = "white";
 				ctx.textAlign = "center";
 				ctx.fillText("Pausa", 197,150);
@@ -395,12 +396,20 @@
 			for(var i = walls.length -1; i>=0; i--){
 				walls[i].paint(ctx)
 			}
+
+			if(gameOver){
+				ctx.fillStyle = "white";
+				ctx.textAlign = "center";
+				ctx.fillText("gameOver", 197,150);
+			}
 		}
 
 
 		function upt(){
 
 			if(pausa == false){
+
+				if(gameOver==false){
 
 			if (direccion==arriba) {
 				player.y -=speed;
@@ -435,9 +444,11 @@
 
 			for(var i = walls.length -1; i>=0; i--){
 				if(player.intersects(walls[i])){
-					alert("Perdiste");
+					gameOver=true;
+					setTimeout('init()',3000)
 				}
 			}
+		}
 
 		 }
 		}
@@ -466,6 +477,11 @@
             walls.push(new Rectangle(220,400,10,10,"gray"));
             walls.push(new Rectangle(100,400,10,10,"gray"));
             walls.push(new Rectangle(300,120,10,10,"gray"));
+
+            gameOver = false;
+            direccion = derecha;
+            puntaje=0;
+            speed = 2;
 
 			run();
 		}
