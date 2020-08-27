@@ -333,6 +333,7 @@
 		var pausa = false;
 		var player = null, comida = null;
 		var puntos = 0;
+		var walls = new Array();
 
 		window.requestAnimationFrame = (function(){
 			return window.requestAnimationFrame || 
@@ -390,6 +391,10 @@
 				ctx.textAlign = "center";
 				ctx.fillText("Pausa", 197,150);
 			}
+
+			for(var i = walls.length -1; i>=0; i--){
+				walls[i].paint(ctx)
+			}
 		}
 
 
@@ -428,6 +433,12 @@
 				puntaje();
 			}
 
+			for(var i = walls.length -1; i>=0; i--){
+				if(player.intersects(walls[i])){
+					alert("Perdiste");
+				}
+			}
+
 		 }
 		}
 
@@ -450,6 +461,11 @@
 			ctx.fillStyle = "rgb(0, 0, 0)";
             ctx.font = "18px Arial";
             ctx.fillText("Puntaje: ", 20,canvas.height-10);
+
+            walls.push(new Rectangle(120,120,10,10,"gray")); 
+            walls.push(new Rectangle(220,400,10,10,"gray"));
+            walls.push(new Rectangle(100,400,10,10,"gray"));
+            walls.push(new Rectangle(300,120,10,10,"gray"));
 
 			run();
 		}
