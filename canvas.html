@@ -336,6 +336,7 @@
 		var walls = new Array();
 		var gameOver=false;
 		var player_body = new Image(), food_img = new Image();
+		var crunch = new Audio(), die = new Audio(), s_pausa = new Audio();
 
 		window.requestAnimationFrame = (function(){
 			return window.requestAnimationFrame || 
@@ -406,6 +407,8 @@
 				ctx.fillStyle = "white";
 				ctx.textAlign = "center";
 				ctx.fillText("gameOver", 197,150);
+				
+				
 			}
 		}
 
@@ -444,13 +447,16 @@
 			if (player.intersects(comida)) {
 				comida.x = random(canvas.width-10);
 				comida.y = random(canvas.height-50);
+				crunch.play();
 				puntaje();
+				
 			}
 
 			for(var i = walls.length -1; i>=0; i--){
 				if(player.intersects(walls[i])){
 					gameOver=true;
-					setTimeout('init()',3000)
+					die.play();
+					setTimeout('init()',3000);
 				}
 			}
 		}
@@ -480,6 +486,10 @@
 
             player_body.src = "assets/player.png";
             food_img.src = "assets/food.png";
+
+            crunch.src = "assets/comer.mp3";
+            die.src = "assets/morir.mp3";
+            s_pausa.src = "assets/s_pausa.mp3";
 
             walls.push(new Rectangle(120,120,10,10,"gray")); 
             walls.push(new Rectangle(220,400,10,10,"gray"));
@@ -514,6 +524,7 @@
 
 				if(pausa == false){
 					pausa = true
+					s_pausa.play();
 				}else{
 					pausa = false
 				}
