@@ -335,6 +335,7 @@
 		var puntos = 0;
 		var walls = new Array();
 		var gameOver=false;
+		var player_body = new Image(), food_img = new Image();
 
 		window.requestAnimationFrame = (function(){
 			return window.requestAnimationFrame || 
@@ -383,9 +384,13 @@
 			ctx.fillStyle = "#000";
 			ctx.fillRect(0,0,canvas.width,canvas.height-50);
 
-			player.paint(ctx); 
+			//player.paint(ctx); 
 
-			comida.paint(ctx);
+			ctx.drawImage(player_body,player.x,player.y);
+
+			//comida.paint(ctx);
+
+			ctx.drawImage(food_img,comida.x,comida.y);
 
 			if(pausa == true && !gameOver){
 				ctx.fillStyle = "white";
@@ -472,6 +477,9 @@
 			ctx.fillStyle = "rgb(0, 0, 0)";
             ctx.font = "18px Arial";
             ctx.fillText("Puntaje: ", 20,canvas.height-10);
+
+            player_body.src = "assets/player.png";
+            food_img.src = "assets/food.png";
 
             walls.push(new Rectangle(120,120,10,10,"gray")); 
             walls.push(new Rectangle(220,400,10,10,"gray"));
